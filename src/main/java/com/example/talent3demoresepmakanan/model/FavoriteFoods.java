@@ -43,4 +43,17 @@ public class FavoriteFoods {
     private Date modifiedTime;
 
 
+
+    @PrePersist
+    public void setPrePersist() {
+        this.createdTime = new Date();
+        this.createdBy = "ADMIN";
+    }
+
+    @PreUpdate
+    public void setPreUpdate(){
+        this.modifiedTime = new Date();
+        this.modifiedBy = "ADMIN";
+    }
+
 }

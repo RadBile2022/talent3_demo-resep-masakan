@@ -1,6 +1,7 @@
 package com.example.talent3demoresepmakanan.service;
 
 
+import com.example.talent3demoresepmakanan.common.Common;
 import com.example.talent3demoresepmakanan.dto.categories.GeneralResponseDTO;
 import com.example.talent3demoresepmakanan.dto.favorite_foods.DeleteFavoriteFoodRequestDTO;
 import com.example.talent3demoresepmakanan.dto.favorite_foods.GetFavoriteFoodsResponseDTO;
@@ -41,9 +42,10 @@ public class FavoriteFoodService {
 
 
     public GetListFavoriteFoodsResponseDTO geAllFavoriteFoods() {
+        log.info("get all favorite food started");
         List<FavoriteFoods> getAllFavoriteFood = favoriteFoodsRepository.findByIsFavorite(true);
         List<GetFavoriteFoodsResponseDTO> favoriteFoodsDTO = new ArrayList<>();
-
+        log.info(Common.CONST_LOG_DB,getAllFavoriteFood);
         for(FavoriteFoods favoriteFood : getAllFavoriteFood){
             GetFavoriteFoodsResponseDTO favoriteFoodDTO = objectMapper.convertValue(favoriteFood,GetFavoriteFoodsResponseDTO.class);
             favoriteFoodsDTO.add(favoriteFoodDTO);
@@ -55,7 +57,10 @@ public class FavoriteFoodService {
     }
 
     public GetFavoriteFoodsResponseDTO getFavoriteFood(Long id) {
+        log.info("get favorite food started");
         Optional<FavoriteFoods> favoriteFoodOptional = favoriteFoodsRepository.findById(id);
+        log.info(Common.CONST_LOG_DB,favoriteFoodOptional.get());
+
         if(favoriteFoodOptional.isPresent()){
             GetFavoriteFoodsResponseDTO favoriteFoodsDTO = objectMapper.convertValue(favoriteFoodOptional.get(),GetFavoriteFoodsResponseDTO.class);
             return favoriteFoodsDTO;
@@ -65,15 +70,15 @@ public class FavoriteFoodService {
     }
 
     public GeneralResponseDTO createFavoriteFood(StoreFavoriteFoodsRequestDTO req) {
+        log.info("create favorite food started");
         Optional<Users> userOptional = usersRepository.findById(req.getUserId());
         Optional<Recipes> recipesOptional = recipeRepository.findById(req.getRecipeId());
         FavoriteFoods favoriteFood = FavoriteFoods.builder()
                 .users(userOptional.get())
                 .recipes(recipesOptional.get())
                 .isFavorite(req.getIsFavorite())
-                .createdTime(new Date())
-                .createdBy("SYSTEM")
                 .build();
+        log.info(Common.CONST_LOG_DB,favoriteFood);
 
         favoriteFoodsRepository.saveAndFlush(favoriteFood);
 
@@ -83,6 +88,7 @@ public class FavoriteFoodService {
     }
 
     public GeneralResponseDTO updateFavoriteFood(Long id,StoreFavoriteFoodsRequestDTO req) {
+        log.info("update favorite food started");
         Optional<FavoriteFoods> favoriteFoodOptional = favoriteFoodsRepository.findById(id);
 
         if (favoriteFoodOptional.isPresent()){
@@ -93,6 +99,7 @@ public class FavoriteFoodService {
             favorite.setUsers(userOptional.get());
             favorite.setRecipes(recipesOptional.get());
             favorite.setIsFavorite(req.getIsFavorite());
+            log.info(Common.CONST_LOG_DB,favorite);
 
             favoriteFoodsRepository.saveAndFlush(favorite);
             return GeneralResponseDTO.builder()
@@ -104,6 +111,7 @@ public class FavoriteFoodService {
     }
 
     public GeneralResponseDTO deleteFavoriteFood(DeleteFavoriteFoodRequestDTO req) {
+        log.info("delete favorite food started");
         Optional<FavoriteFoods> favoriteFoodOptional = favoriteFoodsRepository.findById(req.getId());
 
         if (favoriteFoodOptional.isPresent()){
@@ -111,6 +119,7 @@ public class FavoriteFoodService {
 //            favorite.set(userOptional.get());
 //            favorite.setRecipes(recipesOptional.get());
 //            favorite.setIsFavorite(req.getIsFavorite());
+
 
             return GeneralResponseDTO.builder()
                     .isSuccess(true)

@@ -20,20 +20,17 @@ public class Users {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "username")
     private String username;
 
     @Column(name = "fullname")
     private String fullName;
 
-    @Column(name = "password")
     private String password;
 
-    @Column(name = "role")
     private String role;
 
     @Column(name = "is_deleted")
-    private Boolean isDeleted ;
+    private Boolean isDeleted;
 
     @Column(name = "created_by")
     private String createdBy;
@@ -48,5 +45,17 @@ public class Users {
     private Date modifiedTime ;
 
 
+    @PrePersist
+    public void setPrePersist() {
+        this.isDeleted = false;
+        this.createdTime = new Date();
+        this.createdBy = "ADMIN";
+    }
+
+    @PreUpdate
+    public void setPreUpdate(){
+        this.modifiedTime = new Date();
+        this.modifiedBy = "ADMIN";
+    }
 
 }

@@ -1,4 +1,4 @@
-package com.example.talent3demoresepmakanan.dto.users;
+package com.example.talent3demoresepmakanan.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetUsersRequestDTO {
-    private Long id;
+public class RegisterRequest {
     private String username;
+    private String fullname;
+    private String role;
+    private String password;
 
 }

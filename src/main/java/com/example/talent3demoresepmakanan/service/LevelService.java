@@ -1,5 +1,6 @@
 package com.example.talent3demoresepmakanan.service;
 
+import com.example.talent3demoresepmakanan.common.Common;
 import com.example.talent3demoresepmakanan.dto.categories.GeneralResponseDTO;
 import com.example.talent3demoresepmakanan.dto.categories.GetCategoriesResponseDTO;
 import com.example.talent3demoresepmakanan.dto.categories.GetListCategoriesResponseDTO;
@@ -28,14 +29,17 @@ public class LevelService {
 
     // Read / Get ALl
     public GetListLevelsResponseDTO getAllLevels(){
+        log.info("get all level started");
         List<Levels> getAllLevel = levelsRepository.findByIsDeleted(false);
         List<GetLevelsResponseDTO> levelsDTO = new ArrayList<>();
+        log.info(Common.CONST_LOG_DB,getAllLevel);
 
         for(Levels level: getAllLevel){
             GetLevelsResponseDTO levelDTO = objectMapper.convertValue(level,GetLevelsResponseDTO.class);
 
             levelsDTO.add(levelDTO);
         }
+        log.info(Common.CONST_LOG_DTO,levelsDTO);
 
         return GetListLevelsResponseDTO.builder()
                 .levels(levelsDTO)
@@ -43,7 +47,9 @@ public class LevelService {
     }
 
     public GetLevelsResponseDTO getLevel(GetLevelsRequestDTO req) {
+        log.info("get level started");
         Optional<Levels> levelOptional = levelsRepository.findById(req.getId());
+        log.info(Common.CONST_LOG_DB,levelOptional.get());
         if(levelOptional.isPresent()){
             GetLevelsResponseDTO levelsDTO = objectMapper.convertValue(levelOptional.get(),GetLevelsResponseDTO.class);
             return levelsDTO;
@@ -53,7 +59,10 @@ public class LevelService {
     }
 
     public GetListLevelsResponseDTO getLevelByName(GetLevelsRequestDTO req) {
+        log.info("get level by name started");
         List<Levels> level = levelsRepository.findByLevelsName(req.getLevelsName());
+        log.info(Common.CONST_LOG_DB,level);
+
         List<GetLevelsResponseDTO> levelsDTO = level.stream()
                 .map(l-> objectMapper.convertValue(l,GetLevelsResponseDTO.class))
                 .collect(Collectors.toList());
@@ -64,15 +73,11 @@ public class LevelService {
     }
 
     public GeneralResponseDTO createLevel(StoreLevelsRequestDTO req) {
+        log.info("create level started");
         Levels level = Levels.builder()
                 .levelName(req.getLevelName())
-                .isDeleted(false)
-                .createdBy("SYSTEM")
-                .createdTime(new Date())
-                .modifiedBy("SYSTEM")
-                .modifiedTime(new Date())
                 .build();
-
+        log.info(Common.CONST_LOG_DB,level);
         levelsRepository.saveAndFlush(level);
 
         return GeneralResponseDTO.builder()
@@ -81,12 +86,13 @@ public class LevelService {
     }
 
     public GeneralResponseDTO updateLevel(Long id, StoreLevelsRequestDTO req) {
+        log.info("update level started");
         Optional<Levels> levelOptional = levelsRepository.findById(id);
         if(levelOptional.isPresent()){
             Levels level = levelOptional.get();
             level.setLevelName(req.getLevelName());
-            level.setModifiedBy("SYSTEM");
-            level.setModifiedTime(new Date());
+
+            log.info(Common.CONST_LOG_DB,level);
             levelsRepository.saveAndFlush(level);
 
             return GeneralResponseDTO.builder()
@@ -98,13 +104,13 @@ public class LevelService {
     }
 
     public GeneralResponseDTO deleteLevel(DeleteLevelRequestDTO req) {
+        log.info("delete level started");
         Optional<Levels> levelOptional = levelsRepository.findById(req.getId());
         if(levelOptional.isPresent()){
             Levels level = levelOptional.get();
             level.setIsDeleted(true);
-            level.setModifiedTime(new Date());
-            level.setModifiedBy("SYSTEM");
 
+            log.info(Common.CONST_LOG_DB,level);
             levelsRepository.saveAndFlush(level);
 
             return GeneralResponseDTO.builder()

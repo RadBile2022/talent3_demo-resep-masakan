@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface FavoriteFoodsRepository extends JpaRepository<FavoriteFoods,Long> {
-    List<FavoriteFoods> findAll();
-
     List<FavoriteFoods> findByIsFavorite(Boolean isFavorite);
 
 }

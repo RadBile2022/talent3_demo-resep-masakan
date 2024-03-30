@@ -38,4 +38,17 @@ public class Categories {
     @Column(name = "modified_time")
     private Date modifiedTime;
 
+    @PrePersist
+    public void setPrePersist() {
+        this.isDeleted = false;
+        this.createdTime = new Date();
+        this.createdBy = "ADMIN";
+    }
+
+    @PreUpdate
+    public void setPreUpdate(){
+        this.modifiedTime = new Date();
+        this.modifiedBy = "ADMIN";
+    }
+
 }

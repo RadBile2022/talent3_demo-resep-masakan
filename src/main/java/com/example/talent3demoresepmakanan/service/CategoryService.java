@@ -16,8 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-// simple logging facade for java
-// tatapan loging sederhana untuk java
+// simple logging facade for java atau tatapan loging sederhana untuk java
 public class CategoryService {
     @Autowired
     CategoriesRepository categoryRepository;
@@ -27,6 +26,7 @@ public class CategoryService {
 
     // Read / Get All
     public GetListCategoriesResponseDTO getAllCategories(){
+        log.info("Get Started");
         List<Categories> getAllCategory = categoryRepository.findByIsDeleted(false);
         List<GetCategoriesResponseDTO> categoriesDTO = new ArrayList<>();
 
@@ -95,6 +95,7 @@ public class CategoryService {
 
     // find by id
     public GetCategoriesResponseDTO getCategory(GetCategoriesRequestDTO req){
+        log.info("Hallo Dek");
         Optional<Categories> categoryOptional = categoryRepository.findById(req.getId());
         if (categoryOptional.isPresent()){
             GetCategoriesResponseDTO categoriesDTO = objectMapper.convertValue(categoryOptional.get(),GetCategoriesResponseDTO.class);

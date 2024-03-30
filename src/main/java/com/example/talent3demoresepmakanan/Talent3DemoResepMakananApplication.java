@@ -13,8 +13,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 @SpringBootApplication
 
 @OpenAPIDefinition(info = @Info(
-        title = "TALENT 1 - PIZZA ORDER",
-        description = "Pizza Order for documentation, Arutalab is the best",
+        title = "TALENT 3 - DEMO RESEP MAKANAN",
+        description = "Resep Makanan table Categories, FavoriteFoods, Levels, Recipes, Users to final submission Arutalab is the best",
         version = "1.0"
 ))
 public class Talent3DemoResepMakananApplication implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {

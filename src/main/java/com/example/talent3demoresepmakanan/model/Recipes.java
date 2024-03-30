@@ -44,6 +44,9 @@ public class Recipes {
     @Column(name = "how_to_cook")
     private String howToCook;
 
+
+
+
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
@@ -59,6 +62,19 @@ public class Recipes {
     @Column(name = "modified_time")
     private Date modifiedTime ;
 
+
+    @PrePersist
+    public void setPrePersist() {
+        this.isDeleted = false;
+        this.createdTime = new Date();
+        this.createdBy = "ADMIN";
+    }
+
+    @PreUpdate
+    public void setPreUpdate(){
+        this.modifiedTime = new Date();
+        this.modifiedBy = "ADMIN";
+    }
 
 
 }

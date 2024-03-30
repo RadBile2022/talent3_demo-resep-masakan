@@ -7,9 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface UsersRepository extends JpaRepository<Users,Long> {
-
+    Users findByUsername(String username);
     List<Users> findByIsDeleted(Boolean isDeleted);
 
     @Query(value = "select * from users u where LOWER(l.username) LIKE %:name%",nativeQuery = true)
     List<Users> findByUsersName(String name);
+
+
+
+
 }
