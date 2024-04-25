@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GeneralResponseDTO {
     private Boolean isSuccess;
+    private String message;
 }

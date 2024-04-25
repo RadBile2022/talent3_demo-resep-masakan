@@ -13,8 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -45,7 +43,7 @@ public class UserController {
 
 
     @PostMapping("/register")
-    public RegisterResponse registerUser(@RequestBody RegisterRequest req){
+    public RegisterResponse registerUser(@RequestBody RegisterRequest req) {
         return userService.register(req);
     }
 

@@ -9,6 +9,7 @@ import com.example.talent3demoresepmakanan.dto.categories.GeneralResponseDTO;
 import com.example.talent3demoresepmakanan.dto.levels.GetLevelsRequestDTO;
 import com.example.talent3demoresepmakanan.dto.levels.StoreLevelsRequestDTO;
 import com.example.talent3demoresepmakanan.dto.users.*;
+import com.example.talent3demoresepmakanan.exception.DataNotFoundException;
 import com.example.talent3demoresepmakanan.model.Levels;
 import com.example.talent3demoresepmakanan.model.Users;
 import com.example.talent3demoresepmakanan.repository.UsersRepository;
@@ -105,7 +106,7 @@ public class UserService {
                     .username(users.getUsername())
                     .build();
         }catch (Exception e){
-            throw e;
+            throw new DataNotFoundException("User tidak ada");
         }
     }
     public GetListUsersResponseDTO getAllUser() {
@@ -137,7 +138,7 @@ public class UserService {
             GetUsersResponseDTO usersDTO = objectMapper.convertValue(userOptional.get(),GetUsersResponseDTO.class);
             return usersDTO;
         } else {
-            return  GetUsersResponseDTO.builder().build();
+            throw new DataNotFoundException("User tidak ada");
         }
     }
 
@@ -177,7 +178,8 @@ public class UserService {
                     .isSuccess(true)
                     .build();
         } else {
-            return GeneralResponseDTO.builder().build();
+            throw new DataNotFoundException("User tidak ada");
+
         }
     }
 
@@ -196,7 +198,8 @@ public class UserService {
                     .isSuccess(true)
                     .build();
         }else {
-            return GeneralResponseDTO.builder().build();
+            throw new DataNotFoundException("User tidak ada");
+
         }
 
     }
